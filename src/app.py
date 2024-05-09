@@ -142,30 +142,6 @@ def delete_planet_favorite(user_id, favoritePlanetId):
     db.session.commit()
     return jsonify("Favorite successfully deleted"), 200
     
-@app.route('/user/<int:user_id>/favorites/starships/<int:favoriteStarshipId>', methods=['POST'])
-def add_starship_favorite(user_id, favoriteStarshipId):
-    user = User.query.get(user_id)
-    if not user:
-        raise APIException('User not found', status_code=404)
-    starship = Starship.query.get(favoriteStarshipId)
-    if not starship:
-        raise APIException('Starship not found', status_code=404)
-    if Favorite.query.filter_by(user_id=user_id, favoriteStarshipId=favoriteStarshipId).first():
-        raise APIException('The planet is already on the favorites list', status_code=400)
-    favorite = Favorite(user_id=user_id, favoriteStarshipId=favoriteStarshipId)
-    db.session.add(favorite)
-    db.session.commit()
-    return jsonify("Starship added to favorites successfully"), 200
-
-@app.route('/user/<int:user_id>/favorites/starships/<int:favoriteStarshipId>', methods=['DELETE'])
-def delete_starship_favorite(user_id, favoriteStarshipId):
-    favorite = Favorite.query.filter_by(user_id=user_id, favoriteStarshipId=favoriteStarshipId).first()
-    if not favorite:
-        raise APIException('Favorite not found', status_code=404)
-    db.session.delete(favorite)
-    db.session.commit()
-    return jsonify("Favorite successfully deleted"), 200
-
 # people methods
 
 @app.route('/people', methods=['GET'])
