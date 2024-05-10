@@ -102,9 +102,9 @@ def add_people_favorite(user_id, favoritePersonId):
     people = People.query.get(favoritePersonId)
     if not people:
         raise APIException('Character not found', status_code=404)
-    if Favorite.query.filter_by(user_id=user_id, favoritePersonId=favoritePersonId).first():
+    if Favorite.query.filter_by(user_id=user_id, favorite_Person=favoritePersonId).first():
         raise APIException('The character is already on the favorites list', status_code=400)
-    favorite = Favorite(user_id=user_id, favoritePersonId=favoritePersonId)
+    favorite = Favorite(user_id=user_id, favorite_Person=favoritePersonId)
     db.session.add(favorite)
     db.session.commit()
     return jsonify("Character added to favorites successfully"), 200
