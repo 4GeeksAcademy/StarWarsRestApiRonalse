@@ -111,7 +111,7 @@ def add_people_favorite(user_id, favoritePersonId):
 
 @app.route('/user/<int:user_id>/favorites/people/<int:favoritePersonId>', methods=['DELETE'])
 def delete_people_favorite(user_id, favoritePersonId):
-    favorite = Favorite.query.filter_by(user_id=user_id, favoritePersonId=favoritePersonId).first()
+    favorite = Favorite.query.filter_by(user_id=user_id, favorite_Person=favoritePersonId).first()
     if not favorite:
         raise APIException('Favorite not found', status_code=404)
     db.session.delete(favorite)
@@ -126,16 +126,16 @@ def add_planet_favorite(user_id, favoritePlanetId):
     planet = Planets.query.get(favoritePlanetId)
     if not planet:
         raise APIException('Planet not found', status_code=404)
-    if Favorite.query.filter_by(user_id=user_id, favoritePlanetId=favoritePlanetId).first():
+    if Favorite.query.filter_by(user_id=user_id, favorite_Planet=favoritePlanetId).first():
         raise APIException('The planet is already on the favorites list', status_code=400)
-    favorite = Favorite(user_id=user_id, favoritePlanetId=favoritePlanetId)
+    favorite = Favorite(user_id=user_id, favorite_Planet=favoritePlanetId)
     db.session.add(favorite)
     db.session.commit()
     return jsonify("Planet added to favorites successfully"), 200
 
 @app.route('/user/<int:user_id>/favorites/planets/<int:favoritePlanetId>', methods=['DELETE'])
 def delete_planet_favorite(user_id, favoritePlanetId):
-    favorite = Favorite.query.filter_by(user_id=user_id, favoritePlanetId=favoritePlanetId).first()
+    favorite = Favorite.query.filter_by(user_id=user_id, favorite_Planet=favoritePlanetId).first()
     if not favorite:
         raise APIException('Favorite not found', status_code=404)
     db.session.delete(favorite)
