@@ -52,7 +52,7 @@ def get_user_by_id(user_id):
 @app.route('/user', methods=['POST'])
 def create_user():
     request_body_user = request.get_json()
-    new_user = User(username=request_body_user["username"], email=request_body_user["email"], password=request_body_user["password"])
+    new_user = User(username=request_body_user["username"], email=request_body_user["email"], password=request_body_user["password"], is_active=request_body_user["is_active"])
     db.session.add(new_user)
     db.session.commit()
     return jsonify(request_body_user), 200
